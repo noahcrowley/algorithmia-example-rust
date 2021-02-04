@@ -43,11 +43,21 @@ fn main() {
     // }
 
     let img_directory = client.dir("data://noahcrowley/img_directory");
-    if img_directory.exists().unwrap() == false {
-        img_directory.create(DataAcl::from(ReadAcl::Public)).unwrap();
-    } else {
+
+    // from Anthony Nowell: nit: testing for == false followed by an else clause is less natural to read
+    // 
+    // if img_directory.exists().unwrap() == false {
+    //     img_directory.create(DataAcl::from(ReadAcl::Public)).unwrap();
+    // } else {
+    //     println!("img_directory exists");
+    // }
+
+    if img_directory.exists().unwrap() {
         println!("img_directory exists");
-    }
+     } else { 
+         img_directory.create(DataAcl::from(ReadAcl::Public)).unwrap();
+     }
+
 
     // let img_file = "data://.my/img_directory/friends.jpg";
     // if client.file(img_file).exists().unwrap() == false {
@@ -55,10 +65,17 @@ fn main() {
     // }
 
     let img_file = "data://.my/img_directory/friends.jpg";
-    if client.file(img_file).exists().unwrap() == false {
-        img_directory.put_file("../data/friends.jpg").unwrap();
+
+    // if client.file(img_file).exists().unwrap() == false {
+    //     img_directory.put_file("../data/friends.jpg").unwrap();
+    // } else {
+    //     println!{"file exists"};
+    // }
+
+    if client.file(img_file).exists().unwrap() {
+        println!("file exists");
     } else {
-        println!{"file exists"};
+        img_directory.put_file("../data/friends.jpg").unwrap();
     }
 
     let algo_cv = client.algo("dlib/FaceDetection/0.2.1");
