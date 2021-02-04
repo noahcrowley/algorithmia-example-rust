@@ -26,9 +26,15 @@ fn main() {
     let response_options = algo_options.pipe("HAL 9001").unwrap();
     println!("{}", response_options.as_string().unwrap());
 
-    match algo.pipe("HAL 9002") {
-        Ok(response) => println!("{}", response.as_string().unwrap()),
-        Err(err) => println!("error calling demo/Hello: {}", err)
+    // match algo.pipe("HAL 9002") {
+    //     Ok(response) => println!("{}", response.as_string().unwrap()),
+    //     Err(err) => println!("error calling demo/Hello: {}", err)
+    // }
+
+    let algo_error = client.algo("util/WhoopsWrongAlgo");
+    match algo_error.pipe("Hello, world!") {
+        Ok(_response) => { /* success */ },
+        Err(err) => println!("error calling algorithm: {}", err),
     }
     
     // match client.dir("data://noahcrowley/img_directory").create(DataAcl::default()) {
